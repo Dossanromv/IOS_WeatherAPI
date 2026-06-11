@@ -36,9 +36,23 @@ struct ContentView: View {
                 .font(.system(size:60))
             
             Button("find out") {
-                withAnimation {
-                    temperature = "25°C 🌡️"
+                
+                
+                
+                Task {
+                    
+                    let url = URL(string: "https://api.open-meteo.com/v1/forecast?latitude=42.3&longitude=69.6&current_weather=true")!
+                    let (data, _) = try await URLSession.shared.data(from: url)
+                    let weather = try JSONDecoder().decode(WeatherResponse.self, from: data)
+
+                    
+                    withAnimation {
+                                temperature = "\(weather.current_weather.temperature)°C"
+                            }
+
+
                 }
+                
             }
             .buttonStyle(.borderedProminent)
         }

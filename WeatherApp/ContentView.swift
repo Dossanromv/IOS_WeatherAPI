@@ -22,13 +22,40 @@ struct CurrentWeather: Codable {
 
 struct ContentView: View {
     
-    @State private var temperature = "_"
+    
+    @State private var temperature = "—"
+    @State private var windspeed = "—"
+    @State private var cityName = "City"
+    @State private var latitude = 42.3
+    @State private var longitude = 69.6
     
     
     var body: some View {
         
         VStack {
-            Text("🌤 Shymkent")
+            
+            Picker("Город", selection: $cityName) {
+                Text("Shymkent").tag("Shymkent")
+                Text("Almaty").tag("Almaty")
+                Text("Astana").tag("Astana")
+            }
+            .pickerStyle(.segmented)
+            .onChange(of: cityName) { city in
+                switch city {
+                case "Almaty":
+                    latitude = 43.25
+                    longitude = 76.95
+                case "Astana":
+                    latitude = 51.18
+                    longitude = 71.45
+                default:
+                    latitude = 42.3
+                    longitude = 69.6
+                }
+            }
+            
+            
+            Text(cityName)
                 .font(.largeTitle)
                 .bold()
             
@@ -41,7 +68,9 @@ struct ContentView: View {
                 
                 Task {
                     
-                    let url = URL(string: "https://api.open-meteo.com/v1/forecast?latitude=42.3&longitude=69.6&current_weather=true")!
+                    let url = URL(string: "https://api.open-meteo.com/v1/forecast?latitude=\(latitude)&longitude=\(longitude)&current_weather=true")!
+                    
+                    
                     let (data, _) = try await URLSession.shared.data(from: url)
                     let weather = try JSONDecoder().decode(WeatherResponse.self, from: data)
 

@@ -11,20 +11,13 @@ import SwiftUI
 
 
 struct WeatherResponse: Codable {
-    let main: Main
-    let weather: [Weather]
-    let name: String
+    let current_weather: CurrentWeather
 }
 
-struct Main: Codable {
-    let temp: Double
+struct CurrentWeather: Codable {
+    let temperature: Double
+    let windspeed: Double
 }
-
-struct Weather: Codable {
-    let description: String
-    let id: Int
-}
-
 
 
 struct ContentView: View {
@@ -33,15 +26,21 @@ struct ContentView: View {
     
     
     var body: some View {
-        Text("Погода загружается...")
-
+        
         VStack {
             Text("🌤 Shymkent")
                 .font(.largeTitle)
                 .bold()
+            
             Text(temperature)
                 .font(.system(size:60))
             
+            Button("find out") {
+                withAnimation {
+                    temperature = "25°C 🌡️"
+                }
+            }
+            .buttonStyle(.borderedProminent)
         }
         .padding()
     }

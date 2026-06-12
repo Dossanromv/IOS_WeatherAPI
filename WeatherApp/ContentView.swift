@@ -17,6 +17,7 @@ struct WeatherResponse: Codable {
 struct CurrentWeather: Codable {
     let temperature: Double
     let windspeed: Double
+    let weathercode: Int
 }
 
 
@@ -28,8 +29,8 @@ struct ContentView: View {
     @State private var cityName = "City"
     @State private var latitude = 42.3
     @State private var longitude = 69.6
-    @State private var weatherIcon = "🌤️"
-    
+    @State private var weatherEmoji = "🌤️"
+
     
     
     func weatherIcon(_ code: Int) -> String {
@@ -83,15 +84,20 @@ struct ContentView: View {
                 
                 Task {
                     
+                    
                     let url = URL(string: "https://api.open-meteo.com/v1/forecast?latitude=\(latitude)&longitude=\(longitude)&current_weather=true")!
                     
                     
                     let (data, _) = try await URLSession.shared.data(from: url)
                     let weather = try JSONDecoder().decode(WeatherResponse.self, from: data)
+                    
 
                     
                     withAnimation {
+                        
                                 temperature = "\(weather.current_weather.temperature)°C"
+                        weatherEmoji = weatherIcon(weather.current_weather.weathercode)
+
                         
                             }
 

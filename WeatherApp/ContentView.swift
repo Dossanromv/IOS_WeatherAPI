@@ -52,8 +52,8 @@ struct ContentView: View {
                 colors: bgColors,
                 startPoint: .top,
                 endPoint: .bottom
-                
             )
+            .ignoresSafeArea()
             
             VStack(spacing: 20) {
                 Text("🌍 Weather")
@@ -133,6 +133,7 @@ struct ContentView: View {
 
                             
                                 }
+                        
 
 
                     }
@@ -140,10 +141,9 @@ struct ContentView: View {
                 }
                 .buttonStyle(.borderedProminent)
             }
+            .padding()
         }
-        
-        
-        .padding()
+        .ignoresSafeArea()
     }
 }
 

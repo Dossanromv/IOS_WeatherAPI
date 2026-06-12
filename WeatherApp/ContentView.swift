@@ -28,9 +28,24 @@ struct ContentView: View {
     @State private var cityName = "City"
     @State private var latitude = 42.3
     @State private var longitude = 69.6
+    @State private var weatherIcon = "🌤️"
     
+    
+    
+    func weatherIcon(_ code: Int) -> String {
+        switch code {
+        case 0: return "☀️"
+        case 1, 2, 3: return "⛅️"
+        case 61, 63, 65: return "🌧️"
+        case 71, 73, 75: return "❄️"
+        case 95: return "⛈️"
+        default: return "🌤️"
+        }
+    }
     
     var body: some View {
+        
+        
         
         VStack {
             
@@ -77,6 +92,7 @@ struct ContentView: View {
                     
                     withAnimation {
                                 temperature = "\(weather.current_weather.temperature)°C"
+                        
                             }
 
 

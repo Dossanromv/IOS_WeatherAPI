@@ -70,7 +70,9 @@ struct ContentView: View {
                 }
             }
             
-            
+            Text(weatherEmoji)
+                .font(.system(size: 80))
+
             Text(cityName)
                 .font(.largeTitle)
                 .bold()

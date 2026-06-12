@@ -23,7 +23,7 @@ A simple iOS weather app built with SwiftUI and REST API.
 - Dynamic UI updates with @State
 
 ## Screenshots
-(add screenshot here)
+![image alt](https://github.com/Dossanromv/IOS_ToDolist/blob/1819cec7c2f3ea10faa64a89a23017f510f2f713/ScreensShot.png)
 
 ## API
 This app uses [Open-Meteo](https://open-meteo.com) — free weather API, no key required.

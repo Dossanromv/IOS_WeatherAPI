@@ -45,70 +45,79 @@ struct ContentView: View {
     }
     
     var body: some View {
-        
-        
-        
-        VStack {
+        ZStack {
+            LinearGradient(
+                        colors: [.blue, .cyan],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .ignoresSafeArea()
+
             
-            Picker("Город", selection: $cityName) {
-                Text("Shymkent").tag("Shymkent")
-                Text("Almaty").tag("Almaty")
-                Text("Astana").tag("Astana")
-            }
-            .pickerStyle(.segmented)
-            .onChange(of: cityName) { city in
-                switch city {
-                case "Almaty":
-                    latitude = 43.25
-                    longitude = 76.95
-                case "Astana":
-                    latitude = 51.18
-                    longitude = 71.45
-                default:
-                    latitude = 42.3
-                    longitude = 69.6
+            VStack {
+                
+                Picker("Город", selection: $cityName) {
+                    Text("Shymkent").tag("Shymkent")
+                    Text("Almaty").tag("Almaty")
+                    Text("Astana").tag("Astana")
                 }
-            }
-            
-            Text(weatherEmoji)
-                .font(.system(size: 80))
-
-            Text(cityName)
-                .font(.largeTitle)
-                .bold()
-            
-            Text(temperature)
-                .font(.system(size:60))
-            
-            Button("find out") {
-                
-                
-                
-                Task {
-                    
-                    
-                    let url = URL(string: "https://api.open-meteo.com/v1/forecast?latitude=\(latitude)&longitude=\(longitude)&current_weather=true")!
-                    
-                    
-                    let (data, _) = try await URLSession.shared.data(from: url)
-                    let weather = try JSONDecoder().decode(WeatherResponse.self, from: data)
-                    
-
-                    
-                    withAnimation {
-                        
-                                temperature = "\(weather.current_weather.temperature)°C"
-                        weatherEmoji = weatherIcon(weather.current_weather.weathercode)
-
-                        
-                            }
-
-
+                .pickerStyle(.segmented)
+                .onChange(of: cityName) { city in
+                    switch city {
+                    case "Almaty":
+                        latitude = 43.25
+                        longitude = 76.95
+                    case "Astana":
+                        latitude = 51.18
+                        longitude = 71.45
+                    default:
+                        latitude = 42.3
+                        longitude = 69.6
+                    }
                 }
                 
+                Text(weatherEmoji)
+                    .font(.system(size: 80))
+
+                Text(cityName)
+                    .font(.largeTitle)
+                    .bold()
+                
+                Text(temperature)
+                    .font(.system(size:60))
+                
+                Button("find out") {
+                    
+                    
+                    
+                    Task {
+                        
+                        
+                        let url = URL(string: "https://api.open-meteo.com/v1/forecast?latitude=\(latitude)&longitude=\(longitude)&current_weather=true")!
+                        
+                        
+                        let (data, _) = try await URLSession.shared.data(from: url)
+                        let weather = try JSONDecoder().decode(WeatherResponse.self, from: data)
+                        
+
+                        
+                        withAnimation {
+                            
+                                    temperature = "\(weather.current_weather.temperature)°C"
+                            weatherEmoji = weatherIcon(weather.current_weather.weathercode)
+
+                            
+                                }
+
+
+                    }
+
+                }
+                .buttonStyle(.borderedProminent)
             }
-            .buttonStyle(.borderedProminent)
         }
+        
+        
         .padding()
     }
 }
